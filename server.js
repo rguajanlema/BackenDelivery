@@ -6,6 +6,12 @@ const logger = require("morgan");
 const cors = require("cors");
 const res = require("express/lib/response");
 
+/*
+ *RUTAS
+ */
+
+const users = require("./routes/usersRoutes");
+
 const port = process.env.PORT || 3000;
 
 app.use(logger("dev"));
@@ -20,6 +26,11 @@ app.use(cors());
 app.disable("x-powered-by");
 
 app.set(`port`, port);
+
+/*
+ *LLAMANDO A LAS RUTAS
+ */
+users(app);
 
 server.listen(3000, "192.168.1.3" || "localhost", function () {
   console.log("Aplication de NodeJS " + process.pid + " Inicianda...");
@@ -38,3 +49,8 @@ app.use((err, req, res, next) => {
   console.log(err);
   res.status(err.status || 500).send(err.stack);
 });
+
+module.exports = {
+  app: app,
+  server: server,
+};
